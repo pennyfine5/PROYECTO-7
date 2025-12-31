@@ -1,6 +1,5 @@
-import pandas as pd
+import pandas as pd 
 import streamlit as st
-<<<<<<< HEAD
 import plotly_express as px
 
 
@@ -31,7 +30,7 @@ st.write('Datos de vehículos usados')
 hist_button = st.button('Construir histograma')
 
 if hist_button:
-    st.write('Creación de un histograma para el conjunto de datos de anuncios de venta de coches')
+    st.write('Creación de un histogragte ma para el conjunto de datos de anuncios de venta de coches')
     fig = px.histogram(df_cars, x="odometer")
     st.plotly_chart(fig, use_container_width=True)
 
@@ -42,6 +41,4 @@ if scatter_button:
     st.write('Creación de un gráfico de dispersión')
     fig = px.scatter(df_cars, x="odometer", y="price")
     st.plotly_chart(fig, use_container_width=True)
-=======
-import plotly_express
->>>>>>> 3a82e941668fc32ac751116b59a12c117a302308
+
