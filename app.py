@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+<<<<<<< HEAD
 import plotly_express as px
 
 
@@ -41,3 +42,6 @@ if scatter_button:
     st.write('Creación de un gráfico de dispersión')
     fig = px.scatter(df_cars, x="odometer", y="price")
     st.plotly_chart(fig, use_container_width=True)
+=======
+import plotly_express
+>>>>>>> 3a82e941668fc32ac751116b59a12c117a302308
