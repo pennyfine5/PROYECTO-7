@@ -1,9 +1,9 @@
-import pandas as pd 
+import pandas as pd
 import streamlit as st
 import plotly_express as px
 
 
-df_cars = pd.read_csv('../vehicles_us.csv')
+df_cars = pd.read_csv('vehicles_us.csv')
 
 # Título de la aplicación
 
