@@ -12,16 +12,6 @@ st.header('Análisis de Datos de Vehículos')
 
 st.write(df_cars.head())
 
-
-
-fig = px.histogram(df_cars, x="odometer") # crear un histograma
-st.plotly_chart(fig, use_container_width=True) # crear gráfico de dispersión
-
-
-fig = px.scatter(df_cars, x="odometer", y="price") # crear un gráfico de dispersión
-st.plotly_chart(fig, use_container_width=True) # crear gráfico de dispersión
-
-
 # Mostrar información básica (opcional)
 st.write('Datos de vehículos usados')
 
@@ -79,9 +69,10 @@ fig = px.scatter(
     opacity=0.5
 )
 
-st.header('Precios por condicion del vehiculo')
 
 st.plotly_chart(fig, use_container_width=True)
+
+st.header('Precios por condicion del vehiculo')
 
 
 fig = px.box(
