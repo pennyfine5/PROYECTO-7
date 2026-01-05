@@ -42,3 +42,54 @@ if scatter_button:
     fig = px.scatter(df_cars, x="odometer", y="price")
     st.plotly_chart(fig, use_container_width=True)
 
+st.header('Tipos de Vehículos por Fabricante')
+
+df_cars["manufacturer"] = df_cars["model"].str.split().str[0]
+df_count = (
+    df_cars.groupby(["manufacturer", "type"])
+    .size()
+    .reset_index(name="count")
+)
+
+fig = px.bar(
+    df_count,
+    x="manufacturer",
+    y="count",
+    color="type",
+    title="Vehicle types by manufacturer",
+)
+
+fig.show()
+
+
+
+st.header('Modelo y Precio')
+
+df_year = df_cars[["model_year", "price"]].dropna()
+
+fig = px.scatter(
+    df_year,
+    x="model_year",
+    y="price",
+    title="Precio vs Año del modelo",
+    labels={
+        "model_year": "Año del modelo",
+        "price": "Precio"
+    },
+    opacity=0.5
+)
+
+st.header('Precios por condicion del vehiculo')
+
+fig.show()
+
+fig = px.box(
+    df_cars,
+    x="condition",
+    y="price",
+    title="Distribución de precios por condición del vehículo"
+)
+
+fig.show()
+
+
