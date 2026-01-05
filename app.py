@@ -59,7 +59,8 @@ fig = px.bar(
     title="Vehicle types by manufacturer",
 )
 
-fig.show()
+st.plotly_chart(fig, use_container_width=True)
+
 
 
 
@@ -81,7 +82,8 @@ fig = px.scatter(
 
 st.header('Precios por condicion del vehiculo')
 
-fig.show()
+st.plotly_chart(fig, use_container_width=True)
+
 
 fig = px.box(
     df_cars,
@@ -90,6 +92,7 @@ fig = px.box(
     title="Distribución de precios por condición del vehículo"
 )
 
-fig.show()
+st.plotly_chart(fig, use_container_width=True)
+
 
 
