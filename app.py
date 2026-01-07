@@ -7,7 +7,7 @@ df_cars = pd.read_csv('vehicles_us.csv')
 
 # Título de la aplicación
 
-st.header('Análisis de Datos de Vehículos')
+st.header('Análisis de os de Vehículos')
 
 
 st.write(df_cars.head())
