@@ -3,11 +3,23 @@ import streamlit as st
 import plotly_express as px
 
 
-df_cars = pd.read_csv('vehicles_us.csv')
+df = pd.read_csv('vehicles_us.csv')
+
+# Limpieza de datos (precios válidos)
+df_cars = df[df['price'] > 500].copy()
+
+# Crear fabricante a partir del modelo
+df_cars['manufacturer'] = df_cars['model'].str.split().str[0]
 
 # Título de la aplicación
 
 st.header('Análisis de os de Vehículos')
+
+st.caption(
+    f"Registros originales: {len(df)} | "
+    f"Registros analizados: {len(df_cars)} (precio > $500)"
+)
+
 
 
 st.write(df_cars.head())
@@ -86,3 +98,86 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
+
+
+
+
+st.sidebar.title("🔧 Filtros")
+
+year_range = st.sidebar.slider(
+    "Rango de año del vehículo",
+    int(df_cars["model_year"].min()),
+    int(df_cars["model_year"].max()),
+    (
+        int(df_cars["model_year"].min()),
+        int(df_cars["model_year"].max())
+    )
+)
+
+selected_makes = st.sidebar.multiselect(
+    "Fabricantes",
+    options=sorted(df_cars["manufacturer"].unique()),
+    default=["toyota", "ford", "chevrolet"]
+)
+
+# Aplicar filtros
+filtered_df = df_cars[
+    (df_cars["model_year"].between(*year_range)) &
+    (df_cars["manufacturer"].isin(selected_makes))
+]
+
+# -----------------------------
+# Main - Contenido
+# -----------------------------
+st.title("🚘 Análisis de Vehículos Usados en EE.UU.")
+st.caption(
+    f"Dataset original: {len(df)} registros | "
+    f"Datos analizados: {len(filtered_df)} "
+    f"(precios > $500)"
+)
+
+# KPIs
+col1, col2, col3 = st.columns(3)
+col1.metric("Precio promedio", f"${filtered_df['price'].mean():,.0f}")
+col2.metric("Precio mediano", f"${filtered_df['price'].median():,.0f}")
+col3.metric("Vehículos analizados", len(filtered_df))
+
+st.divider()
+
+# -----------------------------
+# Gráficos
+# -----------------------------
+col_left, col_right = st.columns(2)
+
+with col_left:
+    st.subheader("Distribución de precios")
+    fig_price = px.histogram(
+        filtered_df,
+        x="price",
+        nbins=50
+    )
+    st.plotly_chart(fig_price, use_container_width=True)
+
+with col_right:
+    st.subheader("Precio vs Kilometraje")
+    fig_scatter = px.scatter(
+        filtered_df,
+        x="odometer",
+        y="price",
+        opacity=0.5
+    )
+    st.plotly_chart(fig_scatter, use_container_width=True)
+
+st.divider()
+
+# -----------------------------
+# Tabla exploratoria
+# -----------------------------
+st.subheader("Vista de datos")
+st.dataframe(
+    filtered_df[[
+        "model_year", "manufacturer", "model",
+        "price", "odometer"
+    ]].sort_values("price", ascending=False),
+    height=350
+)
