@@ -102,6 +102,24 @@ st.plotly_chart(fig, use_container_width=True)
 
 
 
+known_brands = [
+    "land rover",
+    "mercedes benz",
+    "alfa romeo"
+]
+
+def extract_manufacturer(model):
+    model_lower = model.lower()
+    for brand in known_brands:
+        if model_lower.startswith(brand):
+            return brand.title()
+    return model.split()[0].upper() if model.split()[0].isupper() else model.split()[0].title()
+
+df_cars["manufacturer"] = df_cars["model"].apply(extract_manufacturer)
+
+
+
+
 st.sidebar.title("🔧 Filtros")
 
 year_range = st.sidebar.slider(
@@ -117,8 +135,11 @@ year_range = st.sidebar.slider(
 selected_makes = st.sidebar.multiselect(
     "Fabricantes",
     options=sorted(df_cars["manufacturer"].unique()),
-    default=["toyota", "ford", "chevrolet"]
+    default=["Toyota", "Ford", "Chevrolet"]
 )
+if not selected_makes:
+    st.warning("Selecciona al menos un fabricante para mostrar resultados")
+    st.stop()
 
 # Aplicar filtros
 filtered_df = df_cars[
